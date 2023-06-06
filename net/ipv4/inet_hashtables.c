@@ -340,7 +340,7 @@ struct sock *inet_lookup_reuseport(struct net *net, struct sock *sk,
 	struct sock *reuse_sk = NULL;
 	u32 phash;
 
-	if (sk->sk_reuseport) {
+	if (sk->sk_reuseport && sk->sk_state != TCP_ESTABLISHED) {
 		phash = inet_ehashfn(net, daddr, hnum, saddr, sport);
 		reuse_sk = reuseport_select_sock(sk, phash, skb, doff);
 	}
